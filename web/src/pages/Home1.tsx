@@ -1,5 +1,6 @@
-import "./Home.css";
+import React from "react";
 import { useState, useEffect } from "react";
+import "./Home1.css";
 
 interface Scenario {
   id: number;
@@ -8,7 +9,7 @@ interface Scenario {
   prompt: string;
 }
 
-function Home() {
+function CardContainer() {
   const [modes, setModes] = useState<Scenario[]>([]);
 
   useEffect(() => {
@@ -23,23 +24,23 @@ function Home() {
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
 
-  // 修改跳转函数以包括 scenarioId
   const redirectToChat = (scenarioId: number) => {
     window.location.href = `http://localhost:5173/chat?scenarioId=${scenarioId}`;
   };
 
   return (
-    <div className="game-modes">
-      {modes && modes.map((modes, index) => (
-          <div className="mode-container" key={index}>
-            <div className="icon" onClick={() => redirectToChat(modes.id)}>
-              {modes.name}
-            </div>
-            <div className="tooltip">{modes.description}</div>
-          </div>
-        ))}
+    <div className="container">
+      {Array.from({ length: 9 }).map((_, index) => (
+        <div
+          key={index}
+          className="card"
+          style={{ "--i": `${index - 4}` } as React.CSSProperties}
+        >
+          {index+1}
+        </div>
+      ))}
     </div>
   );
 }
 
-export default Home;
+export default CardContainer;
